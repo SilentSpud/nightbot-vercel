@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { type } from "os";
 
 type UserData = {
   name: string;
@@ -64,9 +63,7 @@ export const Nightbot = async (req: NextApiRequest, res: NextApiResponse<string>
   const send = async (message: string): Promise<void> => {
     fetch(`https://api.nightbot.tv/1/channel/send/${respUrl.pathname.split("/")[4]}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message }),
     });
   };
