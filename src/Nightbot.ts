@@ -35,6 +35,6 @@ export const NightbotHandler = async (req: NextApiRequest, res: NextApiResponse<
 };
 export const Nightbot = async (callback: NightbotCallback) => {
   return (req: NextApiRequest, res: NextApiResponse<string>) => NightbotHandler(req, res, callback);
-}
+};
 
 export default Nightbot;
