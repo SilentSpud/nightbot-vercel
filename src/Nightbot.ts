@@ -1,46 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { ChannelData, NightbotCallback, NightbotHeader, UserData } from "./NightbotHeader";
 
-type UserData = {
-  name: string;
-  displayName: string;
-  provider: "twitch" | "youtube";
-  providerId: number;
-  userLevel: UserLevel;
-};
-
-type ChannelData = {
-  name: string;
-  displayName: string;
-  provider: "twitch" | "youtube";
-  providerId: number;
-};
-
-export enum UserLevel {
-  Admin = "admin",
-  Owner = "owner",
-  Moderator = "moderator",
-  VIP = "twitch_vip",
-  Regular = "regular",
-  Subscriber = "subscriber",
-  Everyone = "everyone",
-}
-
-export type MsgInfo = {
-  type: "user";
-  user: UserData;
-  chan: ChannelData;
-  send: (message: string) => Promise<void>;
-};
-
-export type TimerInfo = {
-  type: "timer";
-  chan: ChannelData;
-  send: (message: string) => Promise<void>;
-};
-
-export type NightbotInfo = MsgInfo | TimerInfo;
-
-export const Nightbot = async (req: NextApiRequest, res: NextApiResponse<string>, callback: (req: NextApiRequest, res: NextApiResponse<string>, nightbot: NightbotInfo) => Promise<void>) => {
+export const NightbotHandler = async (req: NextApiRequest, res: NextApiResponse<string>, callback: NightbotCallback) => {
   if (!req.headers["nightbot-channel"] || !req.headers["nightbot-response-url"]) return res.status(403).send("You aren't Nightbot!");
   const rawUser = req.headers["nightbot-user"];
   const rawChan = req.headers["nightbot-channel"];
@@ -69,8 +30,11 @@ export const Nightbot = async (req: NextApiRequest, res: NextApiResponse<string>
   };
 
   // If there's a user header, it's a chat command. If not, it's a timer.
-  const infoBlock: NightbotInfo = user ? { type: "user", user, chan, send } : { type: "timer", chan, send };
+  const infoBlock: NightbotHeader = user ? { type: "user", user, chan, send } : { type: "timer", chan, send };
   await callback(req, res, infoBlock);
 };
+export const Nightbot = async (callback: NightbotCallback) => {
+  return (req: NextApiRequest, res: NextApiResponse<string>) => NightbotHandler(req, res, callback);
+}
 
 export default Nightbot;

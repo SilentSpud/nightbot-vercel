@@ -1,11 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import Nightbot from "../../src/Nightbot";
 import { kv } from "@vercel/kv";
 
 type UserInfo = { deaths: number; lives: number; maxStreak?: number };
 
-const handler = async (req: NextApiRequest, res: NextApiResponse<string>) =>
-  Nightbot(req, res, async (req, res, nightbot) => {
+const handler = Nightbot(async (_req, res, nightbot) => {
     // make sure this is a user command
     if (nightbot.type == "timer") return res.status(403).send("");
 

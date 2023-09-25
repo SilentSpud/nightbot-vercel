@@ -1,11 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
 import { DateTime } from "luxon";
 import Nightbot from "../../src/Nightbot";
 import { kv } from "@vercel/kv";
 import moment from "moment";
 
-const handler = (req: NextApiRequest, res: NextApiResponse<string>) =>
-  Nightbot(req, res, async (req, res, nightbot) => {
+const handler = Nightbot(async (_req, res, nightbot) => {
     // get the last time this was called in this channel from redis
     const oldTime = await kv.get<number>(`${nightbot.chan.name}/timer`);
 
