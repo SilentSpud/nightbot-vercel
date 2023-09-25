@@ -33,8 +33,6 @@ export const NightbotHandler = async (req: NextApiRequest, res: NextApiResponse<
   const infoBlock: NightbotHeader = user ? { type: "user", user, chan, send } : { type: "timer", chan, send };
   await callback(req, res, infoBlock);
 };
-export const Nightbot = async (callback: NightbotCallback) => {
-  return (req: NextApiRequest, res: NextApiResponse<string>) => NightbotHandler(req, res, callback);
-};
+export const Nightbot = async (callback: NightbotCallback) => (req: NextApiRequest, res: NextApiResponse<string>) => NightbotHandler(req, res, callback);
 
 export default Nightbot;
