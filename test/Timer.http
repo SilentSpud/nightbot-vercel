@@ -1,4 +1,4 @@
-GET http://localhost:3000/api/timer
+GET http://localhost:3000/timer
 Nightbot-Response-Url: https://api.nightbot.tv/1/channel/send/DEMO-REPLY-KEY
 Nightbot-User: name=demo&displayName=demo&provider=twitch&providerId=01234567&userLevel=owner
 Nightbot-Channel: name=demo&displayName=demo&provider=twitch&providerId=01234567

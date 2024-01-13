@@ -1,5 +1,3 @@
-import { NextApiRequest, NextApiResponse } from "next";
-
 export type UserData = {
   name: string;
   displayName: string;
@@ -40,4 +38,4 @@ export type TimerInfo = {
 
 export type NightbotHeader = MsgInfo | TimerInfo;
 
-export type NightbotCallback = (req: NextApiRequest, res: NextApiResponse<string>, nightbot: NightbotHeader) => Promise<void>;
+export type NightbotCallback = (req: Request, nightbot: NightbotHeader) => Promise<Response>;
