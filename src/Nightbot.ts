@@ -1,4 +1,4 @@
-import { ChannelData, NightbotCallback, NightbotHeader, UserData } from "./NightbotHeader";
+import { ChannelData, NightbotHeader, UserData } from "./NightbotHeader";
 
 // Returns a valid Next request handler for Nightbot urlfetch
 export const Nightbot = async (req: Request): Promise<NightbotHeader | null> => {

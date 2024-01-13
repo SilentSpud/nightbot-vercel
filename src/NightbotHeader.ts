@@ -37,5 +37,3 @@ export type TimerInfo = {
 };
 
 export type NightbotHeader = MsgInfo | TimerInfo;
-
-export type NightbotCallback = (req: Request, nightbot: NightbotHeader) => Promise<Response>;
