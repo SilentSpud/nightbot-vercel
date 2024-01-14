@@ -4,8 +4,12 @@ import { kv } from "@vercel/kv";
 import moment from "moment";
 
 export async function GET(request: Request) {
-  const nightbot = await Nightbot(request);
-  if (nightbot === null) return new Response("You aren't Nightbot!", { status: 403 })
+  let nightbot;
+  try {
+    nightbot = await Nightbot(request);
+  } catch (e: any) {
+    return new Response(e.message, { status: 403 });
+  }
 
   // get the last time this was called in this channel from redis
   const oldTime = await kv.get<number>(`${nightbot.chan.name}/timer`);

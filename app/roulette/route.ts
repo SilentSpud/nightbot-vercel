@@ -4,8 +4,12 @@ import { kv } from "@vercel/kv";
 type UserInfo = { deaths: number; lives: number; maxStreak?: number };
 
 export async function GET(request: Request) {
-  const nightbot = await Nightbot(request);
-  if (nightbot === null) return new Response("You aren't Nightbot!", { status: 403 })
+  let nightbot;
+  try {
+    nightbot = await Nightbot(request);
+  } catch (e: any) {
+    return new Response(e.message, { status: 403 });
+  }
 
   // make sure this is a user command
   if (nightbot.type == "timer") return new Response("", { status: 403 });

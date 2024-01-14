@@ -1,8 +1,7 @@
 import { ChannelData, NightbotHeader, UserData } from "./NightbotHeader";
 
 // Returns a valid Next request handler for Nightbot urlfetch
-export const Nightbot = async (req: Request): Promise<NightbotHeader | null> => {
-  if (!req.headers.get("nightbot-channel") || !req.headers.get("nightbot-response-url")) return null;
+export const Nightbot = async (req: Request): Promise<NightbotHeader> => {
   const rawUser = req.headers.get("nightbot-user");
   const rawChan = req.headers.get("nightbot-channel");
   const rawResp = req.headers.get("nightbot-response-url");
