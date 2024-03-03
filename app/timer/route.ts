@@ -6,7 +6,7 @@ import moment from "moment";
 export async function GET(request: Request) {
   let nightbot;
   try {
-    nightbot = await Nightbot(request);
+    nightbot = Nightbot(request);
   } catch (e: any) {
     return new Response(e.message, { status: 403 });
   }

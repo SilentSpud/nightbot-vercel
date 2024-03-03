@@ -1,7 +1,45 @@
-import { ChannelData, NightbotHeader, UserData } from "./NightbotHeader";
+export type UserData = {
+  name: string;
+  displayName: string;
+  provider: "twitch" | "youtube";
+  providerId: number;
+  userLevel: UserLevel;
+};
 
-// Returns a valid Next request handler for Nightbot urlfetch
-export const Nightbot = async (req: Request): Promise<NightbotHeader> => {
+export type ChannelData = {
+  name: string;
+  displayName: string;
+  provider: "twitch" | "youtube";
+  providerId: number;
+};
+
+export enum UserLevel {
+  Admin = "admin",
+  Owner = "owner",
+  Moderator = "moderator",
+  VIP = "twitch_vip",
+  Regular = "regular",
+  Subscriber = "subscriber",
+  Everyone = "everyone",
+}
+
+export type MsgInfo = {
+  type: "user";
+  user: UserData;
+  chan: ChannelData;
+  send: (message: string) => Promise<void>;
+};
+
+export type TimerInfo = {
+  type: "timer";
+  chan: ChannelData;
+  send: (message: string) => Promise<void>;
+};
+
+export type NightbotHeader = MsgInfo | TimerInfo;
+
+// Returns an object with the headers sent by Nightbot's urlfetch
+export const Nightbot = (req: Request): NightbotHeader => {
   const rawUser = req.headers.get("nightbot-user");
   const rawChan = req.headers.get("nightbot-channel");
   const rawResp = req.headers.get("nightbot-response-url");
@@ -29,8 +67,7 @@ export const Nightbot = async (req: Request): Promise<NightbotHeader> => {
   };
 
   // If there's a user header, it's a chat command. If not, it's a timer.
-  const infoBlock: NightbotHeader = user ? { type: "user", user, chan, send } : { type: "timer", chan, send };
-  return infoBlock;
+  return user ? { type: "user", user, chan, send } : { type: "timer", chan, send };
 };
 
 export default Nightbot;
