@@ -24,7 +24,7 @@ export async function GET(request: Request) {
     kv.set(`${nightbot.user.name}/roulette`, user);
 
     if (user.deaths > 1) {
-      nightbot.send("/me Bang!");
+      await nightbot.send("/me Bang!");
       return new Response(`You've died ${user.deaths} times`);
     } else {
       return new Response("/me Bang!");
@@ -40,8 +40,8 @@ export async function GET(request: Request) {
     kv.set(`${nightbot.user.name}/roulette`, user);
 
     if (user.lives > 1) {
-      nightbot.send("/me Click!");
-      `x${user.lives} ${isStreak ? "" : ` (Record: ${user.maxStreak})`}`;
+      await nightbot.send("/me Click!");
+      //`x${user.lives} ${isStreak ? "" : ` (Record: ${user.maxStreak})`}`;
 
       return new Response(`${user.lives} spins${isStreak ? "" : ` (Record: ${user.maxStreak})`}`);
     } else {
