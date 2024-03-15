@@ -22,7 +22,13 @@ export async function GET(request: Request) {
     user.lives = 0;
     user.deaths++;
     kv.set(`${nightbot.user.name}/roulette`, user);
-    return new Response(`Bang!${user.deaths > 1 ? ` You've died ${user.deaths} times` : ""}`);
+
+    if (user.deaths > 1) {
+      nightbot.send("/me Bang!");
+      return new Response(`You've died ${user.deaths} times`);
+    } else {
+      return new Response("/me Bang!");
+    }
   } else {
     user.lives++;
     if (user.maxStreak === undefined) user.maxStreak = 0;
@@ -32,6 +38,14 @@ export async function GET(request: Request) {
       isStreak = true;
     }
     kv.set(`${nightbot.user.name}/roulette`, user);
-    return new Response(`Click${user.lives > 1 ? ` x${user.lives} ${isStreak ? "" : ` (Record: ${user.maxStreak})`}` : ""}`);
+
+    if (user.lives > 1) {
+      nightbot.send("/me Click!");
+      `x${user.lives} ${isStreak ? "" : ` (Record: ${user.maxStreak})`}`;
+
+      return new Response(`${user.lives} spins${isStreak ? "" : ` (Record: ${user.maxStreak})`}`);
+    } else {
+      return new Response(`/me Click!`);
+    }
   }
-};
+}
